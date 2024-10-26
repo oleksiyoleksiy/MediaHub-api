@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('video_contents', function (Blueprint $table) {
             $table->id();
             $table->string('type');
-            $table->unsignedTinyInteger('year');
+            $table->unsignedSmallInteger('year');
             $table->text('name');
             $table->text('description')->nullable();
             $table->timestamps();

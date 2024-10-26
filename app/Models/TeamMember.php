@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class TeamMember extends Model
 {
@@ -10,5 +11,11 @@ class TeamMember extends Model
         'name',
         'role'
     ];
+
+
+    public function videoContents(): BelongsToMany
+    {
+        return $this->belongsToMany(VideoContent::class, 'video_content_team_members');
+    }
 
 }

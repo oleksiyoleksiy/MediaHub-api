@@ -15,7 +15,6 @@ return new class extends Migration
         Schema::create('announcements', function (Blueprint $table) {
             $table->id();
             $table->text('description');
-            $table->foreignIdFor(VideoContent::class)->constrained()->cascadeOnDelete()->nullable();
             $table->timestamps();
         });
     }
