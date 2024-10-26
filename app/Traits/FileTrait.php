@@ -13,4 +13,6 @@ trait FileTrait
         ->where('type', $type)
         ->get();
     }
+
+    
 }
