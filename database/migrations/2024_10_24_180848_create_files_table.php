@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('model');
             $table->integer('model_id');
             $table->string('type');
+            $table->string('path');
             $table->timestamps();
         });
     }
