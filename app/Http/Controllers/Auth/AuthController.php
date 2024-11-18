@@ -9,6 +9,7 @@ use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Services\Auth\AuthService;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class AuthController extends Controller
 {
@@ -18,21 +19,37 @@ class AuthController extends Controller
     {
         $data = $request->validated();
 
-        $token = $this->service->login($data);
+        [$accessToken, $refreshToken] = $this->service->login($data);
 
         event(new LoginEvent());
 
-        return response()->json(['token' => $token], 200);
+        return response()->json([
+            'accessToken' => $accessToken->plainTextToken,
+            'refreshToken' => $refreshToken->plainTextToken,
+        ], Response::HTTP_OK);
     }
     public function register(RegisterRequest $request)
     {
         $data = $request->validated();
 
-        $token = $this->service->register($data);
+        [$accessToken, $refreshToken]  = $this->service->register($data);
 
         event(new RegisterEvent());
 
-        return response()->json(['token' => $token], 200);
+        return response()->json([
+            'accessToken' => $accessToken->plainTextToken,
+            'refreshToken' => $refreshToken->plainTextToken,
+        ], Response::HTTP_OK);
+    }
+
+    public function refresh(Request $request)
+    {
+        [$accessToken, $refreshToken] = $this->service->refresh($request);
+
+        return response()->json([
+            'accessToken' => $accessToken->plainTextToken,
+            'refreshToken' => $refreshToken->plainTextToken,
+        ], Response::HTTP_OK);
     }
 
     public function logout(Request $request)
