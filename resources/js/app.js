@@ -17,8 +17,8 @@ createInertiaApp({
     setup({ el, App, props, plugin }) {
         createApp({ render: () => h(App, props) })
             .use(plugin)
-            .use(createPinia())
             .use(CoreuiVue)
+            .use(createPinia())
             .provide("icons", icons)
             .component("CIcon", CIcon)
             .mount(el);

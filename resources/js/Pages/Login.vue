@@ -33,18 +33,19 @@
                                     </p>
                                 </div>
                                 <div class="p-2 mt-4">
-                                    <form action="index.html">
+                                    <form @submit="handleFormSubmit">
                                         <div class="mb-3">
                                             <label
                                                 class="form-label"
                                                 for="username"
-                                                >Username</label
+                                                >Email</label
                                             >
                                             <input
+                                                v-model="email"
                                                 type="text"
                                                 class="form-control"
                                                 id="username"
-                                                placeholder="Enter username"
+                                                placeholder="Enter email"
                                             />
                                         </div>
 
@@ -62,6 +63,7 @@
                                                 >Password</label
                                             >
                                             <input
+                                                v-model="password"
                                                 type="password"
                                                 class="form-control"
                                                 id="userpassword"
@@ -91,7 +93,7 @@
                                             </button>
                                         </div>
 
-                                        <div class="mt-4 text-center">
+                                        <!-- <div class="mt-4 text-center">
                                             <div class="signin-other-title">
                                                 <h5
                                                     class="font-size-14 mb-3 title"
@@ -132,9 +134,9 @@
                                                     </a>
                                                 </li>
                                             </ul>
-                                        </div>
+                                        </div> -->
 
-                                        <div class="mt-4 text-center">
+                                        <!-- <div class="mt-4 text-center">
                                             <p class="mb-0">
                                                 Don't have an account ?
                                                 <a
@@ -144,7 +146,7 @@
                                                     Signup now
                                                 </a>
                                             </p>
-                                        </div>
+                                        </div> -->
                                     </form>
                                 </div>
                             </div>
@@ -153,7 +155,7 @@
                         <div class="mt-5 text-center">
                             <p>
                                 ©
-                                {{ date }}
+                                {{ new Date().getFullYear() }}
                                 Minible. Crafted with
                                 <i class="mdi mdi-heart text-danger"></i> by
                                 Themesbrand
@@ -169,11 +171,33 @@
 </template>
 
 <script>
+import { router } from "@inertiajs/vue3";
+import authService from "../Services/authService";
+import { useAuthStore } from "../Store/auth";
+
 export default {
     data() {
         return {
-            date: new Date().getFullYear(),
+            email: "",
+            password: "",
         };
+    },
+    methods: {
+        async handleFormSubmit(e) {
+            e.preventDefault();
+
+            const auth = useAuthStore();
+
+            const response = await authService.login({
+               email: this.email,
+               password: this.password
+            });
+
+            if (response) {
+                auth.setToken(response);
+                router.visit("/");
+            }
+        },
     },
 };
 </script>
