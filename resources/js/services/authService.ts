@@ -1,4 +1,4 @@
-import axiosInstance from "../Api/axiosInstance";
+import axiosInstance from "../api/axiosInstance";
 
 interface Data {
     email: string;
@@ -12,6 +12,7 @@ interface Token {
 
 interface Service {
     login: (data: Data) => Promise<Token | undefined>;
+    logout: () => Promise<boolean>;
 }
 
 export default <Service>{
@@ -23,6 +24,17 @@ export default <Service>{
             if (e.response && e.response.data) {
                 console.log(e.response.data);
             }
+        }
+    },
+    async logout() {
+        try {
+            await axiosInstance.post("/logout");
+            return true;
+        } catch (e) {
+            if (e.response && e.response.data) {
+                console.log(e.response.data);
+            }
+            return false;
         }
     },
 };

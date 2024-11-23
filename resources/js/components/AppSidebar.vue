@@ -10,7 +10,7 @@ import {
 import { Link } from "@inertiajs/vue3";
 import { logo } from "../../../public/brand/logo";
 import { sygnet } from "../../../public/brand/sygnet";
-import { useSidebarStore } from "../Store/sidebar";
+import { useSidebarStore } from "../store/sidebar";
 import CIcon from "@coreui/icons-vue";
 import { AppSidebarNav } from "./AppSidebarNav";
 

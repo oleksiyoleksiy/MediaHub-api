@@ -39,11 +39,6 @@ class AuthService
         return $this->createToken($user);
     }
 
-    public function logout()
-    {
-        Auth::user()->tokens()->delete();
-    }
-
     public function createToken(User $user)
     {
         $user->tokens()->delete();

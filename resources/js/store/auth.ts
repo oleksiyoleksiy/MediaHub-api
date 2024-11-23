@@ -1,12 +1,26 @@
 import { ref } from "vue";
 import { defineStore } from "pinia";
 
-export const useAuthStore = defineStore("auth", () => {
-    const accessToken = ref(localStorage.getItem("accessToken"));
-    const refreshToken = ref(localStorage.getItem("refreshToken"));
-    const user = ref(undefined);
+interface TokenResponse {
+    accessToken: string,
+    refreshToken: string,
+}
 
-    const setToken = (tokens) => {
+interface User {
+    id: number,
+    name: string,
+    email: string,
+    role: {
+        permission: string
+    }
+}
+
+export const useAuthStore = defineStore("auth", () => {
+    const accessToken = ref<string | null>(localStorage.getItem("accessToken"));
+    const refreshToken = ref<string | null>(localStorage.getItem("refreshToken"));
+    const user = ref<User | undefined>(undefined);
+
+    const setToken = (tokens: TokenResponse) => {
         accessToken.value = tokens.accessToken;
         refreshToken.value = tokens.refreshToken;
         localStorage.setItem("accessToken", tokens.accessToken);
@@ -20,7 +34,7 @@ export const useAuthStore = defineStore("auth", () => {
         localStorage.removeItem("refreshToken");
     };
 
-    const setUser = (value) => {
+    const setUser = (value: User) => {
         user.value = value;
     };
 

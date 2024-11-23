@@ -1,12 +1,9 @@
 <?php
 
-use Inertia\Inertia;
+use App\Http\Controllers\Web\Settings\SettingsController;
 use Illuminate\Support\Facades\Route;
 
 
-Route::get('/login', function () {
-    return Inertia::render('Login');
-});
-Route::get('/', function () {
-    return Inertia::render('Home');
-});
+Route::get('/{any}', function () {
+    return view('app');
+})->where('any', '.*')->name('spa');

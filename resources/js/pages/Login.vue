@@ -1,3 +1,29 @@
+<script setup>
+import { router } from "@inertiajs/vue3";
+import authService from "../services/authService";
+import { useAuthStore } from "../store/auth";
+import { ref } from "vue";
+
+const email = ref("");
+const password = ref("");
+const auth = useAuthStore();
+
+const handleFormSubmit = async (e) => {
+    e.preventDefault();
+
+
+    const response = await authService.login({
+        email: email.value,
+        password: password.value,
+    });
+
+    if (response) {
+        auth.setToken(response);
+        router.visit("/");
+    }
+};
+</script>
+
 <template>
     <body class="authentication-bg">
         <div class="account-pages my-5 pt-sm-5">
@@ -169,35 +195,3 @@
         </div>
     </body>
 </template>
-
-<script>
-import { router } from "@inertiajs/vue3";
-import authService from "../Services/authService";
-import { useAuthStore } from "../Store/auth";
-
-export default {
-    data() {
-        return {
-            email: "",
-            password: "",
-        };
-    },
-    methods: {
-        async handleFormSubmit(e) {
-            e.preventDefault();
-
-            const auth = useAuthStore();
-
-            const response = await authService.login({
-               email: this.email,
-               password: this.password
-            });
-
-            if (response) {
-                auth.setToken(response);
-                router.visit("/");
-            }
-        },
-    },
-};
-</script>
